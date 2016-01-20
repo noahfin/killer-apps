@@ -7,5 +7,9 @@ module Forum
 			erb :index
 		end
 
+		get '/fourm' do
+		erb :fourm
+	  end
+
 	end
 end
