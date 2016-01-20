@@ -17,7 +17,7 @@
      	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
      	
      }
-     section{
+     .intro-header{
      	margin-top: -75px;
      	height: 550px;
      	background: url('back-ground.jpg')no-repeat center center ;
@@ -80,7 +80,7 @@ input[type="submit"]{
 	}
 	header{
 		height: 70px;
-		background-color: whitesmoke;
+		/*background-color: whitesmoke;*/
 		border-bottom: 1px solid #666;
 		position: relative;
 	}
@@ -110,12 +110,12 @@ input[type="submit"]{
 	 	position: relative;
 
 
-	 }
+	 }   
 
-   
-
-	.intro{
-		
+	.forum{
+		max-width: 1200px;
+  float: right; 
+  
 		
 		
 	}
