@@ -1,0 +1,6 @@
+require "PG"
+require "pry"
+require "sinatra/base"
+require_relative "server"
+
+run  Forum::Server 

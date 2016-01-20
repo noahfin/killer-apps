@@ -1,0 +1,115 @@
+*{
+		margin: 0;
+		padding: 0;
+	}
+
+	body{
+		
+	}
+     .container{
+     	max-width: 900px;
+     	margin: 0 auto;
+     	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+     	
+     }
+     section{
+     	margin-top: -66px;
+     	height: 500px;
+     	background: url('back-ground.jpg')no-repeat center center ;
+        background-position: 0px 35px;
+ 		-webkit-background-size: cover;
+ 		 -moz-background-size: cover;
+ 		 -o-background-size: cover;
+ 		 background-size: cover;
+
+     }
+     h4{
+     	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+     	font-size: 32px;
+		font-style: normal;
+		font-variant: normal;
+		font-weight: 400;
+		padding-top: 20px;		
+		color: #1a1a1a;	
+
+     }
+     h1{
+     	margin-top: 80px;
+     	padding-top: 60px;
+     	color: whitesmoke;
+     }
+     h3{
+     	margin-top: 20px;
+     	color: whitesmoke;
+     }
+
+     h1 {
+     	margin-top: 30px;
+		font-size: 44px;
+		font-style: normal;
+		font-variant: normal;
+		font-weight: 450;
+		line-height: 46.4px;
+	}  
+h3{
+	font-size: 26px;
+	font-weight: 450;
+	margin-top: 30px;
+	}
+input[type="text"]{
+	width: 280px;
+	height: 25px;
+	margin-top: 30px;	
+	}
+
+input[type="submit"]{
+	height: 30px;
+	width: 90px;
+	background-color: orange;
+	border: none;
+	border-radius:  5px;
+	font-size: 16px;
+	color: #eee;
+	margin: 4px 0px 0px 6px;
+	
+	}
+	header{
+		height: 70px;
+		background-color: whitesmoke;
+		border-bottom: 1px solid #666;
+		position: relative;
+	}
+	header a{
+		float: right;
+		text-decoration: none;
+		padding-right: 5px;
+		margin-left: 20px;
+		margin-top: -25px;
+		font-size: 18px;
+		color: #1a1a1a;	
+	}
+	header li{
+		display: inline;
+	}
+
+	#link-signup{
+   	 position: relative;
+   	     left: -184px;
+   }
+	#link-login{
+		position: relative;
+		    right: 91px;
+
+	}
+	 #link-fourm{
+	 	position: relative;
+
+
+	 }
+
+   
+
+	.intro{
+		
+		
+	}
