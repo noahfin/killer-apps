@@ -23,7 +23,7 @@ CREATE TABLE users(
 CREATE TABLE topics (
 id 		 	  SERIAL PRIMARY KEY,
 topic_subject VARCHAR(255) NOT NULL,
-topic_date 	  DATE NOT NULL,
+topic_date 	  TIMESTAMP  DEFAULT CURRENT_TIMESTAMP,
 topic_by      INTEGER REFERENCES users(id)
 );
 
@@ -31,7 +31,7 @@ CREATE TABLE post(
  id      SERIAL PRIMARY KEY,
  post_title   VARCHAR(50),
  post_content VARCHAR(510) NOT NULL,
- post_date 	  TIMESTAMP  NOT NULL,
+ post_date 	  TIMESTAMP  DEFAULT CURRENT_TIMESTAMP,
  post_vote	  INT,
  post_by      INTEGER REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
  post_topic   INTEGER REFERENCES topics(id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -39,7 +39,7 @@ CREATE TABLE post(
 
 CREATE TABLE comments(
  comment_id      SERIAL PRIMARY KEY,
- comment_date 	 TIMESTAMP NOT NULL,
+ comment_date 	  TIMESTAMP  DEFAULT CURRENT_TIMESTAMP,
  comment_by	     INTEGER REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
  comment_in	 INTEGER REFERENCES post(id) ON DELETE CASCADE ON UPDATE CASCADE
 

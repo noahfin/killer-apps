@@ -1,10 +1,15 @@
 require "bcrypt"
-
+require 'date'
 module Forum
 	class Server < Sinatra::Base
 		set :method_orverride, true
 		enable :sessions
 		#conn = PG.connect(dbname: "killer-apps")
+		def current_user      
+     conn = PG.connect(dbname: "users")
+     @current_user ||= conn.exec_params("SELECT * FROM USERS WHERE ID = $1",[session["user_id"]] ).first
+    end
+
 		get '/' do
 			erb :index
 		end
@@ -47,6 +52,24 @@ module Forum
          '<a href="/login">Wrong password go back to sgin in</a>'
         end
 
+		end
+		get '/show' do 
+			erb :show
+
+		end
+		post '/post' do
+
+			topic = params["topic"]
+			title = params["title"]
+			topic_by =  current_user
+      message = params["message"]
+      conn = PG.connect(dbname: "killer-apps")
+      	conn.exec_params(
+    		"INSERT INTO post (post_title, post_content, post_by	) VALUES ($1, $2, $3  );",[title, message, current_user['id']])
+
+      # conn.exec_params(
+    		# "INSERT INTO topics (topic, topic_by  ) VALUES ($1, $2  );",[topic, topic_by['id']]  )
+     erb :show
 		end
 
 		get '/fourm' do
