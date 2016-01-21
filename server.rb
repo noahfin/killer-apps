@@ -42,7 +42,7 @@ module Forum
      
       if user_password == password
         session["user_id"] = user["id"].to_i  
-         erb :index
+         erb :fourm
         else 
          '<a href="/login">Wrong password go back to sgin in</a>'
         end
