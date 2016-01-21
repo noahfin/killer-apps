@@ -12,6 +12,7 @@ CREATE TABLE users(
   lname    VARCHAR NOT NULL,
   image    VARCHAR(255),
   email    VARCHAR UNIQUE NOT NULL,
+  password VARCHAR(255),
   city     VARCHAR(255),
   state    VARCHAR,
   terms    BOOLEAN NOT NULL,

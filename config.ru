@@ -1,4 +1,4 @@
-require "PG"
+require "pg"
 require "pry"
 require "sinatra/base"
 require_relative "server"
