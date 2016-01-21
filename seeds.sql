@@ -30,7 +30,7 @@ topic_by      INTEGER REFERENCES users(id)
 CREATE TABLE post(
  id      SERIAL PRIMARY KEY,
  post_title   VARCHAR(50),
- post_content VARCHAR(510) NOT NULL,
+ post_content VARCHAR(1020) NOT NULL,
  post_date 	  TIMESTAMP  DEFAULT CURRENT_TIMESTAMP,
  post_vote	  INT,
  post_by      INTEGER REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -39,6 +39,7 @@ CREATE TABLE post(
 
 CREATE TABLE comments(
  comment_id      SERIAL PRIMARY KEY,
+ comment_content VARCHAR(1020) NOT NULL,
  comment_date 	  TIMESTAMP  DEFAULT CURRENT_TIMESTAMP,
  comment_by	     INTEGER REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
  comment_in	 INTEGER REFERENCES post(id) ON DELETE CASCADE ON UPDATE CASCADE

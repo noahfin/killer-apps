@@ -67,8 +67,8 @@ module Forum
       	conn.exec_params(
     		"INSERT INTO post (post_title, post_content, post_by	) VALUES ($1, $2, $3  );",[title, message, current_user['id']])
 
-      # conn.exec_params(
-    		# "INSERT INTO topics (topic, topic_by  ) VALUES ($1, $2  );",[topic, topic_by['id']]  )
+      conn.exec_params(
+    		"INSERT INTO topics (topic_subject, topic_by  ) VALUES ($1, $2  );",[topic, current_user['id']]  )
      erb :show
 		end
 
