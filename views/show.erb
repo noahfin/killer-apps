@@ -121,8 +121,8 @@
                 </article>
                   <form action="/comment" method="post">
                     <textarea class="pure-input-1-4" name="message"placeholder="type comment here" cols="50" rows="5"></textarea>
-                    <input type="hidden" value"<%= @post[0]['id'] %>">
-                    input 
+                    <input type="hidden" name="post_id"value"<%= @post[0]['id'] %>">
+                    
                     <br>
                     <br>
                     <button class="button-secondary pure-button">Replay</button>

@@ -80,9 +80,19 @@ module Forum
       conn.exec_params(
     		"INSERT INTO topics (topic_subject, topic_by  ) VALUES ($1, $2  );",[topic, current_user['id']]  )
 
-    
+  
      erb :show
 		end
+
+		get '/post/:id' do 
+			 post_id = params["id"]
+			conn = PG.connect(dbname: "killer-apps")
+			@post = conn.exec_params("SELECT * FROM post WHERE id = #{post_id};").to_a
+			erb :show
+
+
+		end
+
 		post '/comment' do 
 			  comment = params["message"]
 			  post_id = params["post_id"]
