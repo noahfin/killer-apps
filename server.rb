@@ -91,6 +91,13 @@ module Forum
 			erb :show
 		end
 
+		get '/user/:id' do
+			post_id = params["id"]
+			conn = PG.connect(dbname: "killer-apps")
+			@post = conn.exec_params("SELECT * FROM post JOIN users ON post.post_by = users.id WHERE post_by = #{post_id}" ).to_a
+			erb :fourm
+		end   #= $1",[session["user_id"]] 
+
 		post '/comment' do 
 			  comment = params["message"]
 			  post_id = params["post_id"]
@@ -110,7 +117,7 @@ module Forum
 	  get '/topic/:topic' do
 	  	topic = params['topic']
 	  	conn = PG.connect(dbname: "killer-apps")
-			@post =  conn.exec_params("SELECT * FROM post WHERE post_topic LIKE $1",['CSS'] )
+			@post =  conn.exec_params("SELECT * FROM post WHERE post_topic LIKE $1",[topic] )
 			erb :fourm
 
 	  end
