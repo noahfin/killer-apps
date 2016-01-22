@@ -2,7 +2,7 @@ require "bcrypt"
 require 'date'
 module Forum
 	class Server < Sinatra::Base
-		attr_reader :post_id
+		
 		set :method_orverride, true
 		enable :sessions
 		#conn = PG.connect(dbname: "killer-apps")
@@ -74,7 +74,7 @@ module Forum
       message = params["message"]
       conn = PG.connect(dbname: "killer-apps")
       	post_id = conn.exec_params(
-    		"INSERT INTO post (post_title, post_content, post_by, post_topic	) VALUES ($1, $2, $3, $4  )RETURNING id;",[title, message, current_user['id'], topic])
+    		"INSERT INTO post (post_title, post_content, post_by, post_topic) VALUES ($1, $2, $3, $4  )RETURNING id;",[title, message, current_user['id'], topic])
          post_id =  post_id.first["id"].to_i  
         @post = conn.exec_params("SELECT * FROM post WHERE id = $1", [post_id]).to_a
      
@@ -84,11 +84,12 @@ module Forum
      erb :show
 		end
 		post '/comment' do 
-			  comment = params["comment"]
+			  comment = params["message"]
+			  post_id = params["post_id"]
 			   conn = PG.connect(dbname: "killer-apps")
 			 #  user = conn.exec_params("SELECT * FROM users WHERE email = $1",[email]).first
       	conn.exec_params(
-    		"INSERT INTO comments (comment_content , comment_by, comment_in) VALUES ($1, $2 );",[comment,  current_user['id'], post_id])
+    		"INSERT INTO comments (comment_content , comment_by, comment_in) VALUES ($1, $2, $3 );",[comment,  current_user['id'], post_id])
 
 		end
 
