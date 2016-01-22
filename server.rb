@@ -67,7 +67,6 @@ module Forum
 
 		end
 		post '/post' do
-
 			topic = params["topic"]
 			title = params["title"]
 			post_id = params["post"]
@@ -80,6 +79,7 @@ module Forum
      
       conn.exec_params(
     		"INSERT INTO topics (topic_subject, topic_by  ) VALUES ($1, $2  );",[topic, current_user['id']]  )
+
     
      erb :show
 		end
@@ -94,6 +94,9 @@ module Forum
 		end
 
 		get '/fourm' do
+			conn = PG.connect(dbname: "killer-apps")
+			@post = conn.exec_params("select * from post;").to_a
+
 		erb :fourm
 	  end
 
