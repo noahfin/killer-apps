@@ -20,6 +20,15 @@ module Forum
 		get '/login' do
 			erb :login
 		end
+
+
+
+		def get_name arr
+			arr.map
+
+		end
+
+
 		
     post '/signup' do
     	fname  =  params["fname"]
@@ -72,7 +81,7 @@ module Forum
 			post_id = params["post"]
       message = params["message"]
       conn = PG.connect(dbname: "killer-apps")
-      	post_id = conn.exec_params(
+      post_id = conn.exec_params(
     		"INSERT INTO post (post_title, post_content, post_by, post_topic) VALUES ($1, $2, $3, $4  )RETURNING id;",[title, message, current_user['id'], topic])
          post_id =  post_id.first["id"].to_i  
         @post = conn.exec_params("SELECT * FROM post WHERE id = $1", [post_id]).to_a
@@ -111,6 +120,18 @@ module Forum
 		get '/fourm' do
 			conn = PG.connect(dbname: "killer-apps")
 			@post = conn.exec_params("select * from post;").to_a
+
+
+			@id_array = []
+
+			@post.each do |post|
+				@id_array.push( post['post_by'].to_i) 
+
+			end
+			@name = []
+			@id_array.each do |id|
+			 @name.push(conn.exec_params("SELECT (fname, lname) FROM users WHERE id = $1",[id]).first)
+			end
 
 		erb :fourm
 	  end

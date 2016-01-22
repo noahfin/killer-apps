@@ -87,7 +87,7 @@
 </header>
         <div>
             <!-- A wrapper for all the blog posts -->
-             <% @post.each do |post| %>
+             <% @post.each_with_index do |post, i| %>
             <div class="posts">
                 <h1 class="content-subhead">Pinned Post</h1>
 
@@ -103,7 +103,7 @@
                         <h2 class="post-title"><%= post['post_title'] %></h2>
 
                         <p class="post-meta">
-                            By <a href="/user/<%=post['post_by']%>" class="post-author">Tilo Mitra</a> under <a class="post-category post-category-design" href="/topic/<%=post['post_topic']%>"><%=post['post_topic']%></a> <a class="post-category post-category-pure" href="#">Pure</a>
+                            By <a href="/user/<%=post['post_by']%>" class="post-author"><%=@pname =@name[i]['row'].gsub('(', '').gsub(')','').gsub(',',' ')%></a> under <a class="post-category post-category-design" href="/topic/<%=post['post_topic']%>"><%=post['post_topic']%></a> <a class="post-category post-category-pure" href="#">Pure</a>
                             <a href="/post/<%=post['id'].to_s%>">view</a>
                         </p>
                     </header>
@@ -141,7 +141,8 @@
             <center style="padding: 30px;"><p>Your are sigin as <strong><%= current_user['name'] %></p></strong></center>
             <%end%> 
 
-               <%= @post %>
+               <%= @name %>
+
 
                 
             
