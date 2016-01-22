@@ -48,7 +48,7 @@ module Forum
      
       if user_password == password
         session["user_id"] = user["id"].to_i  
-         erb :fourm
+        redirect '/fourm' 
         else 
          '<a href="/login">Wrong password go back to sgin in</a>'
         end
@@ -81,7 +81,7 @@ module Forum
     		"INSERT INTO topics (topic_subject, topic_by  ) VALUES ($1, $2  );",[topic, current_user['id']]  )
 
   
-     erb :show
+     redirect '/post/' + post_id.to_s 
 		end
 
 		get '/post/:id' do 
@@ -89,8 +89,6 @@ module Forum
 			conn = PG.connect(dbname: "killer-apps")
 			@post = conn.exec_params("SELECT * FROM post WHERE id = #{post_id};").to_a
 			erb :show
-
-
 		end
 
 		post '/comment' do 
@@ -108,6 +106,13 @@ module Forum
 			@post = conn.exec_params("select * from post;").to_a
 
 		erb :fourm
+	  end
+	  get '/topic/:topic' do
+	  	topic = params['topic']
+	  	conn = PG.connect(dbname: "killer-apps")
+			@post =  conn.exec_params("SELECT * FROM post WHERE post_topic LIKE $1",['CSS'] )
+			erb :fourm
+
 	  end
 
 	end
