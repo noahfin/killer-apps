@@ -95,16 +95,16 @@
                     <header class="post-header">
                         <img class="post-avatar" alt="Tilo Mitra&#x27;s avatar" height="65" width="65" src="http://purecss.io/img/common/tilo-avatar.png">
 
-                        <h2 class="post-title">Introducing Pure</h2>
+                        <h2 class="post-title"><%= @post[0]['post_title'] %></h2>
 
                         <p class="post-meta">
-                            By <a href="#" class="post-author">Tilo Mitra</a> under <a class="post-category post-category-design" href="#">CSS</a> <a class="post-category post-category-pure" href="#">Pure</a>
+                            By <a href="#" class="post-author">Tilo Mitra</a> under <a class="post-category post-category-design" href="#"><%= @post[0]['post_topic'] %></a> <a class="post-category post-category-pure" href="#">Pure</a>
                         </p>
                     </header>
 
                     <div class="post-description">
                         <p>
-                            Yesterday at CSSConf, we launched Pure – a new CSS library. Phew! Here are the <a href="https://speakerdeck.com/tilomitra/pure-bliss">slides from the presentation</a>. Although it looks pretty minimalist, we’ve been working on Pure for several months. After many iterations, we have released Pure as a set of small, responsive, CSS modules that you can use in every web project.
+                            <%= @post[0]['post_content'] %>
                         </p>
                     </div>
                 <article class="comment">
@@ -119,10 +119,17 @@
                     <p class="attribution">by <a href="#non">Joe Bloggs</a> at 14:23pm, 4th Dec 2010</p>
                   </div>
                 </article>
-                    <button class="button-secondary pure-button">Comment</button>
+                  <form action="/comment" method="post">
+                    <textarea class="pure-input-1-4" name="message"placeholder="type comment here" cols="50" rows="5"></textarea>
+                    <br>
+                    <br>
+                    <button class="button-secondary pure-button">Replay</button>
+                </form>
 
                 </section>
+                <p>post:<%= @post %> </p>
             </div>
+            
 
 
             <div class="footer">

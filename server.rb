@@ -2,6 +2,7 @@ require "bcrypt"
 require 'date'
 module Forum
 	class Server < Sinatra::Base
+		attr_reader :post_id
 		set :method_orverride, true
 		enable :sessions
 		#conn = PG.connect(dbname: "killer-apps")
@@ -34,7 +35,7 @@ module Forum
     		"INSERT INTO users (fname, lname, email, city, state, terms, password) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id;",[fname, lname, email, city, state, terms, password] )
     	@contact_submitted = true
       session["user_id"] = new_user.first["id"].to_i    
-       "Thanks for siging up"
+      erb :fourm
     end
 
     post '/login' do
@@ -54,6 +55,14 @@ module Forum
 
 		end
 		get '/show' do 
+			conn = PG.connect(dbname: "killer-apps")
+      
+    		#@post = db.exec_params("SELECT * FROM post JOIN comments ON .house_id  = houses.id WHERE house_id = #{id}" ).to_a
+         
+       # @post = conn.exec_params("SELECT * FROM post ;").to_a
+     
+      
+
 			erb :show
 
 		end
@@ -61,15 +70,26 @@ module Forum
 
 			topic = params["topic"]
 			title = params["title"]
-			topic_by =  current_user
+			post_id = params["post"]
       message = params["message"]
       conn = PG.connect(dbname: "killer-apps")
-      	conn.exec_params(
-    		"INSERT INTO post (post_title, post_content, post_by	) VALUES ($1, $2, $3  );",[title, message, current_user['id']])
-
+      	post_id = conn.exec_params(
+    		"INSERT INTO post (post_title, post_content, post_by, post_topic	) VALUES ($1, $2, $3, $4  )RETURNING id;",[title, message, current_user['id'], topic])
+         post_id =  post_id.first["id"].to_i  
+        @post = conn.exec_params("SELECT * FROM post WHERE id = $1", [post_id]).to_a
+     
       conn.exec_params(
     		"INSERT INTO topics (topic_subject, topic_by  ) VALUES ($1, $2  );",[topic, current_user['id']]  )
+    
      erb :show
+		end
+		post '/comment' do 
+			  comment = params["comment"]
+			   conn = PG.connect(dbname: "killer-apps")
+			 #  user = conn.exec_params("SELECT * FROM users WHERE email = $1",[email]).first
+      	conn.exec_params(
+    		"INSERT INTO comments (comment_content , comment_by, comment_in) VALUES ($1, $2 );",[comment,  current_user['id'], post_id])
+
 		end
 
 		get '/fourm' do
