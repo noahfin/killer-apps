@@ -105,18 +105,22 @@
                             <%= @post[0]['post_content'] %>
                         </p>
                     </div>
+                    <%@comments.each do |comment|%>
+                    <h1 class="content-subhead"></h1>
                 <article class="comment">
                   <a class="comment-img" href="#non">
                     <img src="http://lorempixum.com/50/50/people/7" alt="" width="50" height="50">
                   </a>
+                   
                   <div class="comment-body">
                     <div class="text">
-                      <p>This is a much longer one that will go on for a few lines.</p>
-                      <p>It has multiple paragraphs and is full of waffle to pad out the comment. Usually, you just wish these sorts of comments would come to an end.</p>
+                      <%= comment['comment_content'] %>
+
                     </div>
-                    <p class="attribution">by <a href="#non">Joe Bloggs</a> at 14:23pm, 4th Dec 2010</p>
+                    <p class="attribution">by <a href="#non">Joe Bloggs</a> at <%= comment['comment_date'] %></p>
                   </div>
                 </article>
+                <% end %>
                   <form action="/comment" method="post">
                     <textarea class="pure-input-1-4" name="message"placeholder="type comment here" cols="50" rows="5"></textarea>
                    <input type="hidden" value="<%= @post[0]['id'] %>" name="post_id" />
