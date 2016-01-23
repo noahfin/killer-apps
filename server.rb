@@ -162,19 +162,21 @@ module Forum
         elsif topic.length < 1 && title.length <1 && message.length >= 1
         'message updated'   	
       	 conn.exec_params("UPDATE post SET post_content =$1 WHERE id = $2;",[ message,post_id ])
-      	elsif  topic.length < 1 && title .length > 0 && message.length > 1
+      	elsif  topic.length < 1 && title.length > 0 && message.length > 1
       		'message and title updated'
       		 conn.exec_params("UPDATE post SET post_content =$1, post_title = $2 WHERE id = $3;",[ message, title, post_id ])
-      	elsif  topic.length > 0  && title.length  < 0  && message.length > 1	 
+      	elsif  topic.length > 1  && title.length  < 1  && message.length > 1	 
       		'topic and message updated'
       		 conn.exec_params("UPDATE post SET post_content =$1, post_topic = $2 WHERE id = $3;",[ message, topic, post_id ])
       	elsif  topic.length > 0  && title.length > 0  && message.length > 1	 
       		 conn.exec_params("UPDATE post SET post_content =$1, post_topic = $2, post_title = $3  WHERE id = $4;",[ message, topic, title, post_id ])
       		 'topic message and title were updated'
       	
-      		 elsif topic.length > 0 && title.length <1 && message.length < 1
-        'message updated'   	
-      	 conn.exec_params("UPDATE post SET post_content =$1 WHERE id = $2;",[ message,post_id ])
+      		 elsif topic.length > 1 && title.length <1 && message.length < 1      		 	
+          conn.exec_params("UPDATE post SET post_topic =$1 WHERE id = $2;",[ topic,post_id ])  	
+      elsif topic.length < 1 && title.length >1 && message.length < 1
+        'title updated'   	
+      	 conn.exec_params("UPDATE post SET post_title =$1 WHERE id = $2;",[ title,post_id ])
       else
       	"Error"
 
