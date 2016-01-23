@@ -94,9 +94,13 @@ module Forum
 		end
 
 		get '/post/:id' do 
-			 post_id = params["id"]
+			 post_id = params["id"].to_i
 			conn = PG.connect(dbname: "killer-apps")
 			@post = conn.exec_params("SELECT * FROM post WHERE id = #{post_id};").to_a
+      @comments =conn.exec_params("SELECT * FROM comments WHERE comment_in = #{post_id}").to_a
+
+			#@comments = conn.exec_params("SELECT * FROM comments JOIN post ON comment.comment_in = post.id WHERE comment_in = #{post_id}" ).to_a
+			
 			erb :show
 		end
 
@@ -109,12 +113,12 @@ module Forum
 
 		post '/comment' do 
 			  comment = params["message"]
-			  post_id = params["post_id"]
+			  post_id = params["post_id"].to_i
 			   conn = PG.connect(dbname: "killer-apps")
 			 #  user = conn.exec_params("SELECT * FROM users WHERE email = $1",[email]).first
       	conn.exec_params(
     		"INSERT INTO comments (comment_content , comment_by, comment_in) VALUES ($1, $2, $3 );",[comment,  current_user['id'], post_id])
-
+      	"Your comment was posted sucessfuly"
 		end
 
 		get '/fourm' do
