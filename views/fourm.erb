@@ -73,6 +73,7 @@
    </div>
 </header>
         <div>
+            <% if @post %>
             <!-- A wrapper for all the blog posts -->
              <% @post.each_with_index do |post, i| %>
             <div class="posts">
@@ -101,6 +102,7 @@
                 </section>
             </div>
              <% end %> 
+               <% end %> 
 
             
                 <header class="post-header">

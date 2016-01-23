@@ -22,13 +22,6 @@ module Forum
 		end
 
 
-
-		def get_name arr
-			arr.map
-
-		end
-
-
 		
     post '/signup' do
     	fname  =  params["fname"]
@@ -147,9 +140,33 @@ module Forum
 	  get '/edit/:id' do
 	  	post_id = params["id"].to_i
 			conn = PG.connect(dbname: "killer-apps")
-			@post = conn.exec_params("SELECT * FROM post WHERE id = #{post_id};").to_a
+			@post = conn.exec_params("SELECT * FROM post WHERE id = $1;",[post_id]).to_a
 	  	erb :edit
 	  end
+
+
+	  get '/delete/:id' do
+	  	 post_id = params["id"].to_i
+			conn = PG.connect(dbname: "killer-apps")
+			@post = conn.exec_params("SELECT * FROM post WHERE id = #{post_id};").to_a
+		 @comments =conn.exec_params("SELECT * FROM comments WHERE comment_in = #{post_id}").to_a		 	
+	  	erb :delete
+	  end
+	  post '/delete/:id' do
+	  	post_id = params['id'].to_i
+	  	conn = PG.connect(dbname: "killer-apps")
+	    @post = conn.exec_params("SELECT * FROM post WHERE id = #{post_id};").to_a
+			   if @post[0]['post_by'] == current_user['id']
+			 conn.exec_params("DELETE FROM POST WHERE id = $1 ",[post_id])
+			 'you were able to delete'
+			else 
+				'You were not allowed to delete'
+
+		  end
+	end
+
+
+
 
 	  post '/edit/:id' do
 	  	post_id = params['id'].to_i
@@ -184,18 +201,12 @@ module Forum
 
  			#{}"topic:" + topic.to_s + "title:" + title.to_s + "message:" + message.to_s
 
-    # redirect '/post/'  + post_id.to_s 
+     redirect '/post/'  + post_id.to_s 
 
 
 
 	  end
-	  get '	/delete/:id' do
-	  	 post_id = params["id"].to_i
-			conn = PG.connect(dbname: "killer-apps")
-			@post = conn.exec_params("SELECT * FROM post WHERE id = #{post_id};").to_a
-		 @comments =conn.exec_params("SELECT * FROM comments WHERE comment_in = #{post_id}").to_a
-	  	erb :delete
-	  end
+	  
 
 
 	end

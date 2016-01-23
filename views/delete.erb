@@ -127,17 +127,16 @@
                 </article>
                 <% end %>
                  <% end %>
-                  <form action="/comment" method="post">
-                    <textarea class="pure-input-1-4" name="message"placeholder="Reply here" cols="50" rows="5"></textarea>
+                  <form action="/delete/<%= @post[0]['id'] %><" method="post">
                    <input type="hidden" value="<%= @post[0]['id'] %>" name="post_id" />
                     
+                  
                     <br>
-                    <br>
-                    <button class="button-secondary pure-button" type ="submit">Replay</button>
+                    <button class="button-secondary pure-button" type ="submit">Delete</button>
                 </form>
 
                 </section>
-                <p>comments:<%@comments%> </p>
+               
             </div>
             
 
