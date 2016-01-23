@@ -25,9 +25,6 @@
 <!--<![endif]-->
 
 
-
-
-
   
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="css/layouts/blog-old-ie.css">
@@ -36,20 +33,10 @@
         <link rel="stylesheet" href="css/layouts/blog.css">
     <!--<![endif]-->
   
-
-
-    
-
-    
+  
 
 </head>
 <body>
-
-
-
-
-
-
 
 <div id="layout" class="pure-g">
 
@@ -91,9 +78,6 @@
             <div class="posts">
                 <h1 class="content-subhead">Pinned Post</h1>
 
-
-               
-                
                             
                 <!-- A single fourm post -->
                 <section class="post">
@@ -103,7 +87,7 @@
                         <h2 class="post-title"><%= post['post_title'] %></h2>
 
                         <p class="post-meta">
-                            By <a href="/user/<%=post['post_by']%>" class="post-author"><%=@pname =@name[i]['row'].gsub('(', '').gsub(')','').gsub(',',' ')%></a> under <a class="post-category post-category-design" href="/topic/<%=post['post_topic']%>"><%=post['post_topic']%></a> <a class="post-category post-category-pure" href="#">Pure</a>
+                            By <a href="/user/<%=post['post_by']%>" class="post-author"><% if @name%> <%=@pname =@name[i]['row'].gsub('(', '').gsub(')','').gsub(',',' ') %> <%end%></a> under <a class="post-category post-category-design" href="/topic/<%=post['post_topic']%>"><%=post['post_topic']%></a> <a class="post-category post-category-pure" href="#">Pure</a>
                             <a href="/post/<%=post['id'].to_s%>">view</a>
                         </p>
                     </header>
