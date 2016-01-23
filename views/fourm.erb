@@ -87,7 +87,7 @@
                         <h2 class="post-title"><%= post['post_title'] %></h2>
 
                         <p class="post-meta">
-                            By <a href="/user/<%=post['post_by']%>" class="post-author"><% if @name%> <%=@pname =@name[i]['row'].gsub('(', '').gsub(')','').gsub(',',' ') %> <%end%></a> under <a class="post-category post-category-design" href="/topic/<%=post['post_topic']%>"><%=post['post_topic']%></a> <a class="post-category post-category-pure" href="#">Pure</a>
+                            By <a href="/user/<%=post['post_by']%>" class="post-author"><% if @name%> <%=@pname =@name[i]['row'].gsub('(', '').gsub(')','').gsub(',',' ') %> <%end%></a> under <a class="post-category post-category-design" href="/topic/<%=post['post_topic']%>"><%=post['post_topic']%></a> 
                             <a href="/post/<%=post['id'].to_s%>">view</a>
                         </p>
                     </header>
@@ -125,7 +125,7 @@
             <center style="padding: 30px;"><p>Your are sigin as <strong><%= current_user['name'] %></p></strong></center>
             <%end%> 
 
-               <%= @name %>
+               
 
 
                 

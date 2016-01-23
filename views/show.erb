@@ -96,7 +96,9 @@
                         <h2 class="post-title"><%= @post[0]['post_title'] %></h2>
 
                         <p class="post-meta">
-                            By <a href="#" class="post-author">Tilo Mitra</a> under <a class="post-category post-category-design" href="/topic/<%=@post[0]['post_topic']%>"><%= @post[0]['post_topic'] %></a> <a class="post-category post-category-pure" href="#">Pure</a>
+                            By <a href="#" class="post-author">Tilo Mitra</a> under <a class="post-category post-category-design" href="/topic/<%=@post[0]['post_topic']%>"><%= @post[0]['post_topic'] %></a> <a class="post-category post-category-edit" href="">edit</a>  <a class="post-category post-category-edit" href="">delete</a>
+                      
+                      
                         </p>
                     </header>
 
@@ -122,7 +124,7 @@
                 </article>
                 <% end %>
                   <form action="/comment" method="post">
-                    <textarea class="pure-input-1-4" name="message"placeholder="type comment here" cols="50" rows="5"></textarea>
+                    <textarea class="pure-input-1-4" name="message"placeholder="Reply here" cols="50" rows="5"></textarea>
                    <input type="hidden" value="<%= @post[0]['id'] %>" name="post_id" />
                     
                     <br>
@@ -131,7 +133,7 @@
                 </form>
 
                 </section>
-                <p>comments:<%=@comments%> </p>
+                <p>comments:<%@comments%> </p>
             </div>
             
 
