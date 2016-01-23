@@ -70,11 +70,11 @@ module Forum
          
        # @post = conn.exec_params("SELECT * FROM post ;").to_a
      
-      
-
+  
 			erb :show
 
 		end
+
 		post '/post' do
 			topic = params["topic"]
 			title = params["title"]
@@ -124,13 +124,9 @@ module Forum
 		get '/fourm' do
 			conn = PG.connect(dbname: "killer-apps")
 			@post = conn.exec_params("select * from post;").to_a
-
-
 			@id_array = []
-
 			@post.each do |post|
 				@id_array.push( post['post_by'].to_i) 
-
 			end
 			@name = []
 			@id_array.each do |id|
@@ -139,6 +135,7 @@ module Forum
 
 		erb :fourm
 	  end
+
 	  get '/topic/:topic' do
 	  	topic = params['topic']
 	  	conn = PG.connect(dbname: "killer-apps")
@@ -146,6 +143,58 @@ module Forum
 			erb :fourm
 
 	  end
+
+	  get '/edit/:id' do
+	  	post_id = params["id"].to_i
+			conn = PG.connect(dbname: "killer-apps")
+			@post = conn.exec_params("SELECT * FROM post WHERE id = #{post_id};").to_a
+	  	erb :edit
+	  end
+
+	  post '/edit/:id' do
+	  	post_id = params['id'].to_i
+	  	topic = params["topic"]
+			title = params["title"]
+      message = params["message"]
+      conn = PG.connect(dbname: "killer-apps")
+      if  topic.length < 1 && title.length <1 && message.length <1
+      	"Data error"
+        elsif topic.length < 1 && title.length <1 && message.length >= 1
+        'message updated'   	
+      	 conn.exec_params("UPDATE post SET post_content =$1 WHERE id = $2;",[ message,post_id ])
+      	elsif  topic.length < 1 && title .length > 0 && message.length > 1
+      		'message and title updated'
+      		 conn.exec_params("UPDATE post SET post_content =$1, post_title = $2 WHERE id = $3;",[ message, title, post_id ])
+      	elsif  topic.length > 0  && title.length  < 0  && message.length > 1	 
+      		'topic and message updated'
+      		 conn.exec_params("UPDATE post SET post_content =$1, post_topic = $2 WHERE id = $3;",[ message, topic, post_id ])
+      	elsif  topic.length > 0  && title.length > 0  && message.length > 1	 
+      		 conn.exec_params("UPDATE post SET post_content =$1, post_topic = $2, post_title = $3  WHERE id = $4;",[ message, topic, title, post_id ])
+      		 'topic message and title were updated'
+      	
+      		 elsif topic.length > 0 && title.length <1 && message.length < 1
+        'message updated'   	
+      	 conn.exec_params("UPDATE post SET post_content =$1 WHERE id = $2;",[ message,post_id ])
+      else
+      	"Error"
+
+      	end
+
+ 			#{}"topic:" + topic.to_s + "title:" + title.to_s + "message:" + message.to_s
+
+    # redirect '/post/'  + post_id.to_s 
+
+
+
+	  end
+	  get '	/delete/:id' do
+	  	 post_id = params["id"].to_i
+			conn = PG.connect(dbname: "killer-apps")
+			@post = conn.exec_params("SELECT * FROM post WHERE id = #{post_id};").to_a
+		 @comments =conn.exec_params("SELECT * FROM comments WHERE comment_in = #{post_id}").to_a
+	  	erb :delete
+	  end
+
 
 	end
 end

@@ -97,7 +97,7 @@
 
                         <p class="post-meta">
                             By <a href="#" class="post-author">Tilo Mitra</a> under <a class="post-category post-category-design" href="/topic/<%=@post[0]['post_topic']%>"><%= @post[0]['post_topic'] %></a> 
-                            <a class="post-category post-category-edit" href="/edit/<%= @post[0]['id'] %>">edit</a> 
+                        
                              <a class="post-category post-category-edit" href="/delete/<%= @post[0]['id'] %>">delete</a>
                       
                       
@@ -109,38 +109,31 @@
                             <%= @post[0]['post_content'] %>
                         </p>
                     </div>
-                    
-                    <% if @comments %>
-                    <%@comments.each do |comment|%>
+                     
                     <h1 class="content-subhead"></h1>
-                <article class="comment">
-                  <a class="comment-img" href="#non">
-                    <img src="http://lorempixum.com/50/50/people/7" alt="" width="50" height="50">
-                  </a>
-                   
-                  <div class="comment-body">
-                    <div class="text">
-                      <%= comment['comment_content'] %>
-
-                    </div>
-                    <p class="attribution">by <a href="#non">Joe Bloggs</a> at <%= comment['comment_date'] %></p>
-                  </div>
-                </article>
-
-                <% end %>
-                 <% end %>
-
-                  <form action="/comment" method="post">
-                    <textarea class="pure-input-1-4" name="message"placeholder="Reply here" cols="50" rows="5"></textarea>
-                   <input type="hidden" value="<%= @post[0]['id'] %>" name="post_id" />
+               
+               <form method="post" action="/edit/<%= @post[0]['id'] %>"> 
+                
                     
-                    <br>
-                    <br>
-                    <button class="button-secondary pure-button" type ="submit">Replay</button>
-                </form>
+                     <input type="text" name="topic" class="pure-input-1-2" placeholder=" Topic">
+                  <br />
+                  <br />
+
+                <input type="text" name="title" class="pure-input-1-5"  placeholder=" Title">
+                  <br />
+                  <br />
+                <textarea class="pure-input-1-4" name="message" placeholder="Type post here" cols="65" rows="10"></textarea>
+                    <br />
+                    <br />
+                           
+                <button class="button-warning pure-button"  type="submit" id="warning-btn">Edit Post</button>
+
+            </form>
+             </div>
+           
 
                 </section>
-                <p>comments:<%@comments%> </p>
+                
             </div>
             
 
