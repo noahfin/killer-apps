@@ -88,6 +88,7 @@
             <div class="posts">
                 <h1 class="content-subhead">Pinned Post</h1>
 
+          
                 <!-- A single blog post -->
                 <% if @post  %>
                 <% @post.each do |post| %>
@@ -98,7 +99,7 @@
                         <h2 class="post-title"><%= post['post_title'] %></h2>
 
                         <p class="post-meta">
-                            By <a href="#" class="post-author"><% if @name%> <%=@pname =@name[0]['row'].gsub('(', '').gsub(')','').gsub(',',' ') %> <%end%></a> under <a class="post-category post-category-design" href="/topic/<%=@post[0]['post_topic']%>"><%= post['post_topic'] %></a> 
+                            By <a href="/user/<%=post['post_by']%>" class="post-author"><% if @name%> <%=@pname =@name[0]['row'].gsub('(', '').gsub(')','').gsub(',',' ') %> <%end%></a> under <a class="post-category post-category-design" href="/topic/<%=@post[0]['post_topic']%>"><%= post['post_topic'] %></a> 
                             <a class="post-category post-category-edit" href="/edit/<%= post['id'] %>">edit</a> 
                              <a class="post-category post-category-edit" href="/delete/<%= post['id'] %>">delete</a>
                       
@@ -148,7 +149,7 @@
                
             </div>
             
-
+                  <%= make_markdown(@post[0]['post_content'].to_s) %>
 
             <div class="footer">
                 <div class="pure-menu pure-menu-horizontal">

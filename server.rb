@@ -1,5 +1,6 @@
 require "bcrypt"
 require 'date'
+require 'redcarpet'
 module Forum
 	class Server < Sinatra::Base
 		
@@ -10,6 +11,18 @@ module Forum
      conn = PG.connect(dbname: "users")
      @current_user ||= conn.exec_params("SELECT * FROM USERS WHERE ID = $1",[session["user_id"]] ).first
     end
+
+    def make_markdown(content)
+    	options ={
+			:autolink => true,
+			:space_after_headers => true,
+			:no_intra_emphasis => true
+			}
+			markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, options)
+			markdown.render(content)
+		end
+
+    	
 
 		get '/' do
 			erb :index
@@ -74,6 +87,9 @@ module Forum
 			post_id = params["post"]
       message = params["message"]
       conn = PG.connect(dbname: "killer-apps")
+      if current_user == nil || current_user['id'].to_i < 1
+      	'<a href="/login">You need to signup or login to post</a>'
+      else
       post_id = conn.exec_params(
     		"INSERT INTO post (post_title, post_content, post_by, post_topic) VALUES ($1, $2, $3, $4  )RETURNING id;",[title, message, current_user['id'], topic])
          post_id =  post_id.first["id"].to_i  
@@ -82,8 +98,9 @@ module Forum
       conn.exec_params(
     		"INSERT INTO topics (topic_subject, topic_by  ) VALUES ($1, $2  );",[topic, current_user['id']]  )
 
-  
+      
      redirect '/post/' + post_id.to_s 
+   end
 		end
 
 		get '/post/:id' do 
