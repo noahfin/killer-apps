@@ -109,9 +109,9 @@
                             <%= @post[0]['post_content'] %>
                         </p>
                     </div>
-                    
+
                     <% if @comments %>
-                    <%@comments.each do |comment|%>
+                    <%@comments.each_with_index do |comment, i|%>
                     <h1 class="content-subhead"></h1>
                 <article class="comment">
                   <a class="comment-img" href="#non">
@@ -123,7 +123,7 @@
                       <%= comment['comment_content'] %>
 
                     </div>
-                    <p class="attribution">by <a href="#non">Joe Bloggs</a> at <%= comment['comment_date'] %></p>
+                    <p class="attribution">by <a href="#non"><% if @comment_names%> <%=@pname =@comment_names[i]['row'].gsub('(', '').gsub(')','').gsub(',',' ') %><%end%> </a> at <%= comment['comment_date'] %></p>
                   </div>
                 </article>
 
@@ -140,7 +140,7 @@
                 </form>
 
                 </section>
-                <p>comments:<%@comments%> </p>
+                <p>comment:<%=  @comment_names %> </p>
             </div>
             
 

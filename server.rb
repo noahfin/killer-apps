@@ -91,9 +91,21 @@ module Forum
 			conn = PG.connect(dbname: "killer-apps")
 			@post = conn.exec_params("SELECT * FROM post WHERE id = #{post_id};").to_a
       @comments =conn.exec_params("SELECT * FROM comments WHERE comment_in = #{post_id}").to_a
-
+      	
+      	@id_array = []
+      	@comments.each do |comment|
+				@id_array.push( comment['comment_by'].to_i) 
+			end
+			@comment_names= []
+			@id_array.each_with_index do |id, i|
+			@comment_names.push(conn.exec_params("SELECT (fname, lname) FROM users WHERE id = $1",[@id_array[i]]).first)
+			# @id_array.each do |id|
+			  
+			end
+        	
 			#@comments = conn.exec_params("SELECT * FROM comments JOIN post ON comment.comment_in = post.id WHERE comment_in = #{post_id}" ).to_a
-			
+
+	
 			erb :show
 		end
 
