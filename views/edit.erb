@@ -89,16 +89,18 @@
                 <h1 class="content-subhead">Pinned Post</h1>
 
                 <!-- A single blog post -->
+                <% if @post  %>
+                <% @post.each do |post| %>
                 <section class="post">
                     <header class="post-header">
                         <img class="post-avatar" alt="Tilo Mitra&#x27;s avatar" height="65" width="65" src="http://purecss.io/img/common/tilo-avatar.png">
 
-                        <h2 class="post-title"><%= @post[0]['post_title'] %></h2>
+                        <h2 class="post-title"><%= post['post_title'] %></h2>
 
                         <p class="post-meta">
-                            By <a href="#" class="post-author">Tilo Mitra</a> under <a class="post-category post-category-design" href="/topic/<%=@post[0]['post_topic']%>"><%= @post[0]['post_topic'] %></a> 
-                        
-                             <a class="post-category post-category-edit" href="/delete/<%= @post[0]['id'] %>">delete</a>
+                            By <a href="#" class="post-author"><% if @name%> <%=@pname =@name[0]['row'].gsub('(', '').gsub(')','').gsub(',',' ') %> <%end%></a> under <a class="post-category post-category-design" href="/topic/<%=@post[0]['post_topic']%>"><%= post['post_topic'] %></a> 
+                            <a class="post-category post-category-edit" href="/edit/<%= post['id'] %>">edit</a> 
+                             <a class="post-category post-category-edit" href="/delete/<%= post['id'] %>">delete</a>
                       
                       
                         </p>
@@ -106,13 +108,14 @@
 
                     <div class="post-description">
                         <p>
-                            <%= @post[0]['post_content'] %>
+                            <%= post['post_content'] %>
                         </p>
                     </div>
+
                      
                     <h1 class="content-subhead"></h1>
                
-               <form method="post" action="/edit/<%= @post[0]['id'] %>"> 
+               <form method="post" action="/edit/<%= post['id'] %>"> 
                 
                     
                      <input type="text" name="topic" class="pure-input-1-2" placeholder=" Topic">
@@ -135,6 +138,8 @@
                 </section>
                 
             </div>
+            <%end %>
+            <%end%>
             
 
 
