@@ -24,6 +24,15 @@ module Forum
 
     	@@conn ||= PG.connect(dbname: "killer-apps")
 
+
+    	def gravatar_url(id)
+    		@email = @@conn.exec_params("SELECT email FROM users WHERE id = $1",[id]).first
+    		@stripped_email = @email['email'].strip
+    		@downcased_email = @stripped_email.downcase
+    		hash = Digest::MD5.hexdigest(@downcased_email)
+    		'http://gravatar.com/avatar/' + hash.to_s
+    	end
+
 		get '/' do
 			erb :index
 		end
@@ -75,7 +84,7 @@ module Forum
          
        # @post = conn.exec_params("SELECT * FROM post ;").to_a
      
-  
+      
 			erb :show
 
 		end
@@ -131,10 +140,11 @@ module Forum
 	
 			erb :show
 		end
-
+     ########################################################################
 		get '/user/:id' do
 			post_id = params["id"]
 			@post = @@conn.exec_params("SELECT * FROM post JOIN users ON post.post_by = users.id WHERE post_by = $1",[	post_id ] ).to_a
+			 @email = gravatar_url(@post[0]['post_by'])
 			erb :fourm
 		end   #= $1",[session["user_id"]] 
 
