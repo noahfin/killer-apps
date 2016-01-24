@@ -114,7 +114,7 @@ module Forum
 			 post_id = params["id"].to_i
 			@post = @@conn.exec_params("SELECT * FROM post WHERE id = #{post_id};").to_a
       @comments = @@conn.exec_params("SELECT * FROM comments WHERE comment_in = $1",[post_id]).to_a
-      	
+      	@email = gravatar_url(@post[0]['post_by'])
       	@id_array = []
       	@comments.each do |comment|
 				@id_array.push( comment['comment_by'].to_i) 
@@ -164,13 +164,16 @@ module Forum
 		get '/fourm' do
 			@post = @@conn.exec_params("select * from post;").to_a
 			@id_array = []
+			@image_array = []
 			@post.each do |post|
 				@id_array.push( post['post_by'].to_i) 
+				@image_array.push(gravatar_url(@post[0]['post_by']))
 			end
 			@name = []
 			@id_array.each do |id|
 			 @name.push(@@conn.exec_params("SELECT (fname, lname) FROM users WHERE id = $1",[id]).first)
 			end
+
 
 		erb :fourm
 	  end
