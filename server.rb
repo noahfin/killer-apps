@@ -20,7 +20,7 @@ module Forum
 		get '/login' do
 			erb :login
 		end
-
+    
 
 		
     post '/signup' do
@@ -101,6 +101,15 @@ module Forum
 			@comment_names.push(conn.exec_params("SELECT (fname, lname) FROM users WHERE id = $1",[@id_array[i]]).first)
 			# @id_array.each do |id|
 			  
+			end
+
+			@id_array = []
+			@post.each do |post|
+				@id_array.push( post['post_by'].to_i) 
+			end
+			@name = []
+			@id_array.each do |id|
+			 @name.push(conn.exec_params("SELECT (fname, lname) FROM users WHERE id = $1",[id]).first)
 			end
         	
 			#@comments = conn.exec_params("SELECT * FROM comments JOIN post ON comment.comment_in = post.id WHERE comment_in = #{post_id}" ).to_a

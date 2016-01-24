@@ -96,7 +96,7 @@
                         <h2 class="post-title"><%= @post[0]['post_title'] %></h2>
 
                         <p class="post-meta">
-                            By <a href="#" class="post-author">Tilo Mitra</a> under <a class="post-category post-category-design" href="/topic/<%=@post[0]['post_topic']%>"><%= @post[0]['post_topic'] %></a> 
+                            By <a href="#" class="post-author"><% if @name%> <%=@pname =@name[0]['row'].gsub('(', '').gsub(')','').gsub(',',' ') %> <%end%></a> under <a class="post-category post-category-design" href="/topic/<%=@post[0]['post_topic']%>"><%= @post[0]['post_topic'] %></a> 
                             <a class="post-category post-category-edit" href="/edit/<%= @post[0]['id'] %>">edit</a> 
                              <a class="post-category post-category-edit" href="/delete/<%= @post[0]['id'] %>">delete</a>
                       
@@ -140,7 +140,7 @@
                 </form>
 
                 </section>
-                <p>comment:<%=  @comment_names %> </p>
+               
             </div>
             
 
