@@ -118,8 +118,41 @@ input[type="submit"]{
 
 	.forum{
 		max-width: 1200px;
-  float: right; 
-  
-		
+  		float: right; 
 		
 	}
+
+
+	@media only screen and (max-width: 905px) {
+	    .container {
+	        padding-left: 10px;
+	    }
+	   #link-signup{
+   	 position: relative;
+   	     left: -135px;
+   }
+	#link-login{
+		position: relative;
+		    right: 73px;
+
+	}
+	 #link-fourm{
+	 	position: relative;
+
+
+	 }   
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

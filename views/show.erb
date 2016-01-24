@@ -109,7 +109,7 @@
 
                     <div class="post-description">
                         <p>
-                            <%= post['post_content'] %>
+                            <%= make_markdown(@post[0]['post_content'].to_s) %>
                         </p>
                     </div>
 
@@ -123,7 +123,9 @@
                    
                   <div class="comment-body">
                     <div class="text">
-                      <%= comment['comment_content'] %>
+                        <%= make_markdown(comment['comment_content']) %>
+
+                      <%=  %>
 
                     </div>
                     <p class="attribution">by <a href="#non"><% if @comment_names%> <%=@pname =@comment_names[i]['row'].gsub('(', '').gsub(')','').gsub(',',' ') %><%end%> </a> at <%= comment['comment_date'] %></p>
@@ -149,7 +151,7 @@
                
             </div>
             
-                  <%= make_markdown(@post[0]['post_content'].to_s) %>
+
 
             <div class="footer">
                 <div class="pure-menu pure-menu-horizontal">
