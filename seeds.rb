@@ -1,9 +1,9 @@
--- remove any records and start the id sequence back to 1
+
 require 'pg'
 
 
 if ENV["RACK_ENV"] == "production"
-  = PG.connect(
+  conn = PG.connect(
   dbname: ENV["POSTGRES_DB"],
   host: ENV["POSTGRES_HOST"],
   password:ENV["POSTGRES_PASS"],
@@ -12,7 +12,7 @@ if ENV["RACK_ENV"] == "production"
 else
 conn = PG.connect(dbname: "killer-apps")
 
-end
+
 
 conn.exec("DROP TABLE IF EXISTS contact_data")
 
@@ -22,7 +22,7 @@ conn.exec("DROP TABLE IF EXISTS  emails CASCADE;")
 conn.exec("DROP TABLE IF EXISTS  users CASCADE;")
 conn.exec("DROP TABLE IF EXISTS  topics CASCADE;")
 conn.exec("DROP TABLE IF EXISTS  post CASCADE;")
-conn.exec("DROP TABLE IF EXISTS  comments CASCADE;");
+conn.exec("DROP TABLE IF EXISTS  comments CASCADE;")
 
   conn.exec(" CREATE TABLE emails (
      id 		 SERIAL PRIMARY KEY,
@@ -69,4 +69,7 @@ conn.exec("DROP TABLE IF EXISTS  comments CASCADE;");
      comment_by	     INTEGER REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
      comment_in	     INTEGER REFERENCES post(id) ON DELETE CASCADE ON UPDATE CASCADE
     );")
+
+
+    end
 
