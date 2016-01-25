@@ -83,7 +83,7 @@
                 <!-- A single fourm post -->
                 <section class="post">
                     <header class="post-header">
-                        <img class="post-avatar" alt="Tilo Mitra&#x27;s avatar" height="65" width="65" src="<%= @image_array[i]%>">
+                        <img class="post-avatar" alt="Tilo Mitra&#x27;s avatar" height="65" width="65" src=" <% if @image_array %><%= @image_array[i]%><%end%> <">
 
                         <h2 class="post-title"><%= post['post_title'] %></h2>
 
@@ -95,7 +95,9 @@
 
                     <div class="post-description">
                         <p>
-                            <%= post['post_content'] %>
+
+                            <%= make_markdown(post['post_content'].to_s) %>
+                            <%= %>
                         </p>
                     </div>
                 

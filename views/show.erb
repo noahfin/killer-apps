@@ -94,7 +94,7 @@
                 <% @post.each do |post| %>
                 <section class="post">
                     <header class="post-header">
-                        <img class="post-avatar" alt="Tilo Mitra&#x27;s avatar" height="65" width="65" src="<%=@email  %>">
+                        <img class="post-avatar" alt="Tilo Mitra&#x27;s avatar" height="65" width="65" src="<%if @email %><%=@email  %><%end%>">
 
                         <h2 class="post-title"><%= post['post_title'] %></h2>
 
@@ -118,7 +118,7 @@
                     <h1 class="content-subhead"></h1>
                 <article class="comment">
                   <a class="comment-img" href="#non">
-                    <img src="http://lorempixum.com/50/50/people/7" alt="" width="50" height="50">
+                    <img src="<%if @comment_array %> <%=@comment_array[i] %> <%end %>" alt="" width="50" height="50">
                   </a>
                    
                   <div class="comment-body">
@@ -151,7 +151,7 @@
                
             </div>
             
-
+           <%=@comment_array %>
 
             <div class="footer">
                 <div class="pure-menu pure-menu-horizontal">
