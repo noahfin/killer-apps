@@ -21,8 +21,17 @@ module Forum
 			markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, options)
 			markdown.render(content)
 		end
+		 if ENV["RACK_ENV"] == "production"
+				conn = PG.connect(
+  			dbname: ENV["POSTGRES_DB"],
+  			host: ENV["POSTGRES_HOST"],
+  			password:ENV["POSTGRES_PASS"],
+  			user:ENV["POSTGRES_USER"]
+			)
+			else
 
     	@@conn ||= PG.connect(dbname: "killer-apps")
+     end
 
 
     	def gravatar_url(id)
