@@ -7,9 +7,19 @@ module Forum
 		set :method_orverride, true
 		enable :sessions
 		#conn = PG.connect(dbname: "killer-apps")
+		if ENV["RACK_ENV"] == "production"
+				@@conn = PG.connect(
+  			dbname: ENV["POSTGRES_DB"],
+  			host: ENV["POSTGRES_HOST"],
+  			password:ENV["POSTGRES_PASS"],
+  			user:ENV["POSTGRES_USER"]
+			)
+			else
+    	  @@conn ||= PG.connect(dbname: "killer-apps")
+     end
+
 		def current_user      
-     conn = PG.connect(dbname: "users")
-     @current_user ||= conn.exec_params("SELECT * FROM USERS WHERE ID = $1",[session["user_id"]] ).first
+     @current_user ||= @@conn.exec_params("SELECT * FROM USERS WHERE ID = $1",[session["user_id"]] ).first
     end
 
     def make_markdown(content)
@@ -21,18 +31,6 @@ module Forum
 			markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, options)
 			markdown.render(content)
 		end
-		 if ENV["RACK_ENV"] == "production"
-				conn = PG.connect(
-  			dbname: ENV["POSTGRES_DB"],
-  			host: ENV["POSTGRES_HOST"],
-  			password:ENV["POSTGRES_PASS"],
-  			user:ENV["POSTGRES_USER"]
-			)
-			else
-
-    	@@conn ||= PG.connect(dbname: "killer-apps")
-     end
-
 
     	def gravatar_url(id)
     		@email = @@conn.exec_params("SELECT email FROM users WHERE id = $1",[id]).first
@@ -96,7 +94,6 @@ module Forum
 
 		end
 		get '/show' do 
-			conn = PG.connect(dbname: "killer-apps")
       
     		#@post = db.exec_params("SELECT * FROM post JOIN comments ON .house_id  = houses.id WHERE house_id = #{id}" ).to_a
          
@@ -118,7 +115,7 @@ module Forum
       post_id = @@conn.exec_params(
     		"INSERT INTO post (post_title, post_content, post_by, post_topic) VALUES ($1, $2, $3, $4  )RETURNING id;",[title, message, current_user['id'], topic])
          post_id =  post_id.first["id"].to_i  
-        @post = conn.exec_params("SELECT * FROM post WHERE id = $1", [post_id]).to_a
+        @post = @@conn.exec_params("SELECT * FROM post WHERE id = $1", [post_id]).to_a
      
       @@conn.exec_params(
     		"INSERT INTO topics (topic_subject, topic_by  ) VALUES ($1, $2  );",[topic, current_user['id']]  )
