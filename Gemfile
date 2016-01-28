@@ -6,5 +6,6 @@ source "https://rubygems.org"
  gem 'redcarpet'
  gem 'pg'
  gem 'pry'
+ gem 'sanitize'
 
 

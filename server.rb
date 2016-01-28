@@ -1,6 +1,7 @@
 require "bcrypt"
 require 'date'
 require 'redcarpet'
+require 'sanitize'
 module Forum
 	class Server < Sinatra::Base
 		
@@ -16,17 +17,19 @@ module Forum
 			)
 			else
     	  @@conn ||= PG.connect(dbname: "killer-apps")
-     end
+     	end
 
 		def current_user      
-     @current_user ||= @@conn.exec_params("SELECT * FROM USERS WHERE ID = $1",[session["user_id"]] ).first
-    end
+    	 @current_user ||= @@conn.exec_params("SELECT * FROM USERS WHERE ID = $1",[session["user_id"]] ).first
+    	end
 
     def make_markdown(content)
     	options ={
 			:autolink => true,
 			:space_after_headers => true,
-			:no_intra_emphasis => true
+			:no_intra_emphasis => true,
+			:filter_html => true,
+			:prettify => true
 			}
 			markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, options)
 			markdown.render(content)
@@ -40,14 +43,6 @@ module Forum
     		'http://gravatar.com/avatar/' + hash.to_s
     	end
 
-  #   	def comment_images(comments)
-  #   	@image_array = []
-		# 	comments.each do |post|
-			
-		# 		@image_array.push(gravatar_url(post['post_by'].to_i))
-		# 	end
-		# 	@image_array
-		# end
 
 		get '/' do
 			erb :index
@@ -95,11 +90,6 @@ module Forum
 		end
 		get '/show' do 
       
-    		#@post = db.exec_params("SELECT * FROM post JOIN comments ON .house_id  = houses.id WHERE house_id = #{id}" ).to_a
-         
-       # @post = conn.exec_params("SELECT * FROM post ;").to_a
-     
-      
 			erb :show
 
 		end
@@ -140,12 +130,10 @@ module Forum
 			@comment_names= []
 
 			@id_array.each_with_index do |id, i|
-			@comment_names.push(@@conn.exec_params("SELECT (fname, lname) FROM users WHERE id = $1",[@id_array[i]]).first)
-			@comment_array.push(gravatar_url(@id_array[i])).first 
-			@email = gravatar_url(@post[0]['post_by'])
-			# @id_array.each do |id|
-			
-      	
+				@comment_names.push(@@conn.exec_params("SELECT (fname, lname) FROM users WHERE id = $1",[@id_array[i]]).first)
+				@comment_array.push(gravatar_url(@id_array[i])).first 
+				@email = gravatar_url(@post[0]['post_by'])		
+	      	
 			end
 
 			@id_array = []
@@ -156,10 +144,7 @@ module Forum
 			@id_array.each do |id|
 			 @name.push(@@conn.exec_params("SELECT (fname, lname) FROM users WHERE id = $1",[id]).first)
 			end
-        	
-			#@comments = conn.exec_params("SELECT * FROM comments JOIN post ON comment.comment_in = post.id WHERE comment_in = #{post_id}" ).to_a
-		
-	
+        				
 			erb :show
 		end
      ########################################################################
@@ -168,7 +153,7 @@ module Forum
 			@post = @@conn.exec_params("SELECT * FROM post JOIN users ON post.post_by = users.id WHERE post_by = $1",[	post_id ] ).to_a
 			 @email = gravatar_url(@post[0]['post_by'])
 			erb :fourm
-		end   #= $1",[session["user_id"]] 
+		end  
 
 		post '/comment' do 
 			if current_user == nil || current_user['id'].to_i < 1
@@ -176,7 +161,6 @@ module Forum
       else
 			  comment = params["message"]
 			  post_id = params["post_id"].to_i
-			 #  user = conn.exec_params("SELECT * FROM users WHERE email = $1",[email]).first
       	@@conn.exec_params(
     		"INSERT INTO comments (comment_content , comment_by, comment_in) VALUES ($1, $2, $3 );",[comment,  current_user['id'], post_id])
       	'Your comment was posted sucessfuly' +  '<a href="/post/' + post_id.to_s + '">View</a>' 
@@ -266,7 +250,6 @@ module Forum
 
       	end
 
- 			#{}"topic:" + topic.to_s + "title:" + title.to_s + "message:" + message.to_s
 
      redirect '/post/'  + post_id.to_s 
 
