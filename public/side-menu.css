@@ -32,10 +32,17 @@
 li{list-style: none;
 }
  textarea{
-    max-width: 450px;
+   width:  640px; 
+   
+
     height: 250px;
 
+ }
+ input[type="text"]{
+     width:  640px; 
+   
  } 
+
 /* Email Item Styles */
 .
 /*-----------------------------------------------------for blog________________*/
@@ -179,6 +186,7 @@ li{list-style: none;
 }
 
 @media (min-width: 48em) {
+    
     .content {
         padding: 2em 3em 0;
         margin-left: 25%;
@@ -196,6 +204,15 @@ li{list-style: none;
     }
 }
 @media (max-width: 48em) {
+    textarea{
+      width: 250px;
+          
+
+    }
+    input[type="text"]{
+    width: 250px;
+    }
+ 
 
     .pure-menu{
     }
