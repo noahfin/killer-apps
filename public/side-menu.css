@@ -31,7 +31,11 @@
 }
 li{list-style: none;
 }
+ textarea{
+    max-width: 450px;
+    height: 250px;
 
+ } 
 /* Email Item Styles */
 .
 /*-----------------------------------------------------for blog________________*/
