@@ -118,9 +118,22 @@ input[type="submit"]{
 
 	.forum{
 		max-width: 1200px;
-  		float: right; 
+  	float: right; 
 		
 	}
+	.pure-form{
+		width: 400px;
+		margin-top: 20px;
+		margin-left:  auto;
+		margin-right: auto;
+	}
+	#email, #password, #submit, input[type="text"],#state{
+	   	width: 100%;
+	   	height: 40px;
+	   	margin: 0 auto;
+
+	   }
+
 
 
 	@media only screen and (max-width: 905px) {
@@ -141,6 +154,17 @@ input[type="submit"]{
 
 
 	 }   
+	}
+	@media (max-width: 48em) {
+	  #email, #password, #submit{
+	   	width: 98%;
+	   	height: 50px;
+
+	   }
+	   #submit{
+	   	
+	   	
+	   }
 	}
 
 
