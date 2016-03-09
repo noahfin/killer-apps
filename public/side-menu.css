@@ -205,12 +205,12 @@ li{list-style: none;
 }
 @media (max-width: 48em) {
     textarea{
-      width: 250px;
+      width: 270px;
           
 
     }
     input[type="text"]{
-    width: 250px;
+    width: 260px;
     }
  
 
